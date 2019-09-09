@@ -2,6 +2,10 @@ package kr.co.mghan.view;
 
 import kr.co.mghan.domain.EmpBean;
 import kr.co.mghan.domain.EmpData;
+import kr.co.mghan.ex.CodeValueNotFoundException;
+import kr.co.mghan.ex.RunException;
+
+import java.util.List;
 
 import kr.co.mghan.domain.DeptBean;
 import kr.co.mghan.domain.DeptData;
@@ -17,14 +21,15 @@ import kr.co.mghan.domain.DeptData;
 
 public class Menu extends CommonMethod
 {
-	EmpBean[] ar_eb = null;
-	DeptBean[] ar_db = null;
-	public void main_menu()
-	{		
+	List<EmpBean> ar_eb = null;
+	List<DeptBean> ar_db = null;
+
+	public void main_menu(int auth) throws CodeValueNotFoundException
+	{
 		// Data값 초기화
 		ar_eb = new EmpData().def_data();
 		ar_db = new DeptData().def_data();
-		
+
 		// 메뉴 반복 코드 값 추가
 		boolean top_menu_bool = true;
 
@@ -33,10 +38,19 @@ public class Menu extends CommonMethod
 			System.out.println("-- KITRI Human Resource Management System에 오신것을 환영합니다.");
 			System.out.println("-- 다음 수행하고자 하는 메뉴 번호를 누르세요.");
 			System.out.println("- 1. 사원정보조회");
-			System.out.println("- 2. 사원추가");
-			System.out.println("- 3. 사원수정");
-			System.out.println("- 4. 사원삭제");
-			System.out.println("- 5. 부서정보조회");
+			if (auth != 3)
+			{
+				System.out.println("- 2. 사원추가");
+				System.out.println("- 3. 사원수정");
+			}
+			if (auth < 3)
+			{
+				System.out.println("- 4. 사원삭제");
+			}
+			if (auth < 2)
+			{
+				System.out.println("- 5. 부서정보조회");
+			}
 			System.out.println("- 6. 종료");
 			System.out.print("값을 입력하세요. => ");
 			// 입력값 받을 수 있는 기능 수행
@@ -55,23 +69,33 @@ public class Menu extends CommonMethod
 				first_menu();
 			} // else if first end
 
-			else if (menu.equals("2"))
+			else if (menu.equals("2") && auth != 4)
 			{
 				// 2번 메뉴 (사원 추가 실행시킬 수 있도록 구성하기)
 				second_menu();
 			} // else if second end
-			else if (menu.equals("3"))
+			else if (menu.equals("3") && auth != 4)
 			{
 				third_menu();
 			}
-			else if (menu.equals("4"))
+			else if (menu.equals("4") && auth < 3)
 			{
 				// 4번 메뉴 ( 사원 삭제)
 				fourth_menu();
 			}
-			else if (menu.equals("5"))
+			else if (menu.equals("5") && auth < 2)
 			{
-				fifth_menu();
+				fifth_menu(auth);
+			}
+			else
+			{
+				try
+				{
+					new RunException().runException();
+				} catch (CodeValueNotFoundException cvnf)
+				{
+					System.out.println("입력 값이 잘 못 되었습니다.");
+				}
 			}
 
 		} // while end
@@ -104,7 +128,7 @@ public class Menu extends CommonMethod
 			} // if exit end , exit시 종료
 			else if (menu.equals("a"))
 			{ // 전체사원조회
-				// SearchHR shr = new SearchHR();				
+				// SearchHR shr = new SearchHR();
 				SearchHR shr = SearchHR.getInstance();
 				shr.AllView(ar_eb);
 			} // else if 'a' END
@@ -120,7 +144,7 @@ public class Menu extends CommonMethod
 					// String empno => int 바꿀 필요가 있음
 					EmpBean eb = null;
 					int i_empno = Integer.parseInt(empno);
-					eb = new EmpData().getEmp(i_empno, ar_eb);
+					eb = (EmpBean) new EmpData().getEmp(i_empno, ar_eb);
 					String s_code = SearchHR.getInstance().selView(eb);
 
 					// code Y 다시 검색, code N 종료
@@ -161,7 +185,7 @@ public class Menu extends CommonMethod
 			shr.all_View(ar_eb);
 			String idx = super.input_msg();
 
-			if (Integer.parseInt(idx) <= ar_eb.length)
+			if (Integer.parseInt(idx) <= ar_eb.size())
 			{
 				System.out.println("수정하고자 하는 사원 번호를 입력하세요.");
 				String m_empno = super.input_msg();
@@ -197,7 +221,7 @@ public class Menu extends CommonMethod
 	}
 
 	// 5번 메뉴 메소드 생성
-	public void fifth_menu()
+	public void fifth_menu(int auth)
 	{
 		// 부서정보 조회 메뉴
 		boolean dept_menu_bool = true;
@@ -208,9 +232,12 @@ public class Menu extends CommonMethod
 			System.out.println("------------------------------");
 			System.out.println("@ 수행하고자 하는 메뉴 번호를 누르세요.");
 			System.out.println("1. 부서 조회");
-			System.out.println("2. 부서 추가");
-			System.out.println("3. 부서 수정");
-			System.out.println("4. 부서 삭제");			
+			if (auth == 0)
+			{
+				System.out.println("2. 부서 추가");
+				System.out.println("3. 부서 수정");
+				System.out.println("4. 부서 삭제");
+			}
 			System.out.println("exit. 종료");
 			System.out.print("값을 입력하세요. => ");
 			String menu = input_msg();
@@ -223,15 +250,15 @@ public class Menu extends CommonMethod
 			{
 				dm.dept_search(ar_db);
 			}
-			else if (menu.equals("2"))
+			else if (menu.equals("2") && auth == 0)
 			{
 				ar_db = dm.dept_add(ar_db);
 			}
-			else if (menu.equals("3"))
+			else if (menu.equals("3") && auth == 0)
 			{
 				ar_db = dm.dept_mod(ar_db);
 			}
-			else if (menu.equals("4"))
+			else if (menu.equals("4") && auth == 0)
 			{
 				ar_db = dm.dept_del(ar_db);
 			}

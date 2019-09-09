@@ -1,5 +1,8 @@
 package kr.co.mghan.view;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import kr.co.mghan.domain.DeptBean;
 import kr.co.mghan.domain.DeptData;
 
@@ -12,7 +15,7 @@ public class DeptMenu extends CommonMethod
 		return dm;
 	}
 
-	public void dept_search(DeptBean[] ar_db)
+	public void dept_search(List<DeptBean> ar_db)
 	{
 		for (;;)
 		{
@@ -53,7 +56,7 @@ public class DeptMenu extends CommonMethod
 
 	}
 
-	public DeptBean[] dept_add(DeptBean[] ar_db)
+	public List<DeptBean> dept_add(List<DeptBean> ar_db)
 	{
 		int a_deptno;
 		String a_deptname;
@@ -72,7 +75,7 @@ public class DeptMenu extends CommonMethod
 
 	}
 
-	public DeptBean[] dept_mod(DeptBean[] ar_db)
+	public List<DeptBean> dept_mod(List<DeptBean> ar_db)
 	{
 		int i_deptno;
 		int e_deptno;
@@ -84,9 +87,9 @@ public class DeptMenu extends CommonMethod
 		System.out.println("수정하실 부서번호를 입력하세요.");
 		i_deptno = Integer.parseInt(input_msg());
 		int target = 0;
-		for (target = 0; target < ar_db.length; target++)
+		for (target = 0; target < ar_db.size(); target++)
 		{
-			if (ar_db[target].getDeptno() == i_deptno)
+			if (ar_db.get(target).getDeptno() == i_deptno)
 			{
 				isDept++;
 				break;
@@ -114,9 +117,8 @@ public class DeptMenu extends CommonMethod
 
 	}
 
-	public DeptBean[] dept_del(DeptBean[] ar_db)
-	{
-		DeptBean[] old_ar_db = ar_db; // 현재 배열
+	public List<DeptBean> dept_del(List<DeptBean> ar_db)
+	{		
 		int i_deptno; // 입력받을 부서번호
 
 		int isDept = 0;
@@ -124,55 +126,23 @@ public class DeptMenu extends CommonMethod
 		System.out.println("삭제하실 부서번호를 입력하세요.");
 		i_deptno = Integer.parseInt(input_msg());
 		int target = 0; // 찾을 부서번호의 인덱스
-		for (target = 0; target < ar_db.length; target++)
+		for (target = 0; target < ar_db.size(); target++)
 		{
 			// 부서가 존재하면 isDept의 값을 증가하고 for문 탈출
-			if (ar_db[target].getDeptno() == i_deptno)
-			{
-				ar_db[target] = null;
+			if (ar_db.get(target).getDeptno() == i_deptno)
+			{				
 				isDept++;
 				break;
 			}
 		}
 		if (isDept > 0)
 		{
-			// 정렬로 NULL로 된 객체를 배열 제일 마지막으로 이동시킴
-			boolean cnt = true;
-			while (cnt)
-			{
-				for (int j = 0; j < old_ar_db.length; j++)
-				{
-					DeptBean tmp = new DeptBean();
-					if (old_ar_db[j] == null)
-					{
-						if (j != (old_ar_db.length - 1))
-						{
-							tmp = old_ar_db[j];
-							old_ar_db[j] = old_ar_db[j + 1];
-							old_ar_db[j + 1] = tmp;
-						}
-						if(j == old_ar_db.length - 1) {
-							cnt = false;
-						}
-					}
-				}
+			List<DeptBean> ar_eb_ll = new LinkedList<DeptBean>();
+			ar_eb_ll = ar_db;			
+				
+			ar_eb_ll.remove(target);		
 
-			}
-
-			// 새로운 객체배열 생성, 현재 배열보다 한칸 작게
-			DeptBean[] new_ar_db = new DeptBean[old_ar_db.length - 1];
-
-			// 새로운 객체배열에 현재배열의 값을 입력
-			for (int j = 0; j < new_ar_db.length; j++)
-			{
-				DeptBean db = new DeptBean();
-				db.setDeptno(old_ar_db[j].getDeptno());
-				db.setDeptname(old_ar_db[j].getDeptname());
-				db.setLoc(old_ar_db[j].getLoc());
-				new_ar_db[j] = db;
-			}
-
-			return new_ar_db;
+			return ar_eb_ll;
 		} // if 부서존재 END
 		else
 		{

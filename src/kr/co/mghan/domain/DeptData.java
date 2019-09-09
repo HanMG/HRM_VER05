@@ -1,8 +1,11 @@
 package kr.co.mghan.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeptData
 {
-	public DeptBean[] def_data(){
+	public List<DeptBean> def_data(){
 		
 		DeptBean db = new DeptBean();
 		db.setDeptno(10);
@@ -19,19 +22,25 @@ public class DeptData
 		db3.setDeptname("IT");
 		db3.setLoc("GURO");
 		
-		DeptBean[] arr_db = {db, db2, db3};
+		List<DeptBean> db_list = new ArrayList<DeptBean>() ; 
 		
-		return arr_db;
+		db_list.add(db);
+		db_list.add(db2);
+		db_list.add(db3);		
+		
+		return db_list;
 		
 	}
 	
-	public DeptBean getDept(int deptno, DeptBean[] ar_db)
+	
+	// 특정 부서 조회
+	public DeptBean getDept(int deptno, List<DeptBean> ar_db)
 	{
-		for (int i = 0; i < ar_db.length; i++)
+		for (int i = 0; i < ar_db.size(); i++)
 		{
-			if (ar_db[i].getDeptno() == deptno)
+			if (ar_db.get(i).getDeptno() == deptno)
 			{
-				return ar_db[i];
+				return ar_db.get(i);
 			}
 		}
 		return null;

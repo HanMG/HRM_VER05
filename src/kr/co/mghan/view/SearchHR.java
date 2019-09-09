@@ -1,5 +1,7 @@
 package kr.co.mghan.view;
 
+import java.util.List;
+
 import kr.co.mghan.domain.EmpBean;
 
 
@@ -16,15 +18,16 @@ public class SearchHR extends Search
 		return shr;
 	}
 	
-	public void all_View(EmpBean[] ar_eb)
+	public void all_View(List<EmpBean> ar_eb)
 	{	
 		System.out.println("------조회된 사원 결과------");
-		for (int i = 0; i < ar_eb.length; i++)
+		System.out.println(ar_eb.size());
+		for (int i = 0; i < ar_eb.size(); i++)
 		{
 			System.out.println((i + 1) + "번째 사원 정보----");
-			System.out.println("사원번호 : " + ar_eb[i].getEmpno());
-			System.out.println("사원이름 : " + ar_eb[i].getEname());
-			System.out.println("부서번호 : " + ar_eb[i].getDeptno());
+			System.out.println("사원번호 : " + ar_eb.get(i).getEmpno());
+			System.out.println("사원이름 : " + ar_eb.get(i).getEname());
+			System.out.println("부서번호 : " + ar_eb.get(i).getDeptno());
 			System.out.println();
 		} // for end		
 	
@@ -53,11 +56,12 @@ public class SearchHR extends Search
 		return code;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void AllView(Object[] ar_ob)
+	public void AllView(Object ar_ob)
 	{
 		// TODO Auto-generated method stub
-		all_View((EmpBean[])ar_ob);
+		all_View((List<EmpBean>) ar_ob);
 		
 	}
 

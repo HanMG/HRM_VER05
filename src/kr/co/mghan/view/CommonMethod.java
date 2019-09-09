@@ -7,19 +7,19 @@ import java.io.InputStreamReader;
 public class CommonMethod
 {
 	// 입력을 받는 버퍼리더 
-	public String input_msg()
+	public static String input_msg()
 	{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String menu = null;
+		String input = null;
 		try
 		{
-			menu = br.readLine();
+			input = br.readLine();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return menu;
+		return input;
 	}
 }
