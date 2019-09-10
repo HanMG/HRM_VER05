@@ -22,4 +22,18 @@ public class CommonMethod
 
 		return input;
 	}
+	
+	public boolean repeatCheck(boolean repeat)
+	{
+		System.out.println("다시하시겠습니까? (y,n)");
+		String input;
+		input = input_msg();
+
+		if(input.equals("n")){
+			return false;			
+		}
+		else {
+			return true;
+		}
+	}
 }

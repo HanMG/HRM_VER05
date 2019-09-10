@@ -25,8 +25,9 @@ public class DeptMethod extends CommonMethod
 	}// dept_all_View end
 
 	// 특정부서 보기
-	public String dept_View(DeptBean db)
+	public void dept_View(DeptBean db)
 	{
+		
 		// 부서가 있는지 체크
 		if (db == null)
 		{
@@ -39,12 +40,7 @@ public class DeptMethod extends CommonMethod
 			System.out.println("부서명 : " + db.getDeptname());
 			System.out.println("위치 : " + db.getLoc());
 			System.out.println();
-		}
-
-		System.out.println("계속 검색 하시겠습니까? (y,n)");
-		String code = input_msg(); // Y 다시 검색하는 메뉴 실행, N 종료
-
-		return code;
+		}	
 	}
 
 	public List<DeptBean> ins_dept(int deptno, String deptname, String loc, List<DeptBean> ar_db)
