@@ -9,6 +9,6 @@ public abstract class Search extends CommonMethod
 	
 	
 	// 선택 내용을 볼 수 있도록 하는 메소드 선언
-	public abstract String selView(Object ob);
+	public abstract void selView(Object ob);
 	
 }

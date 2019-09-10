@@ -3,10 +3,9 @@ package kr.co.mghan.view;
 public class SearchDept extends Search
 {
 	@Override
-	public String selView(Object ob)
+	public void selView(Object ob)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Auto-generated method stub		
 	}
 
 	@Override
@@ -15,7 +14,4 @@ public class SearchDept extends Search
 		// TODO Auto-generated method stub
 		
 	}
-
-	
-	
 }

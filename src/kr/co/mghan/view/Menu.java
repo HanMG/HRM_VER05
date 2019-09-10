@@ -31,9 +31,9 @@ public class Menu extends CommonMethod
 		ar_db = new DeptData().def_data();
 
 		// 메뉴 반복 코드 값 추가
-		boolean top_menu_bool = true;
+		boolean repeat = true;
 
-		while (top_menu_bool)
+		while (repeat)
 		{
 			System.out.println("-- KITRI Human Resource Management System에 오신것을 환영합니다.");
 			System.out.println("-- 다음 수행하고자 하는 메뉴 번호를 누르세요.");
@@ -59,7 +59,7 @@ public class Menu extends CommonMethod
 			if (menu.equals("6"))
 			{ // OR Integer.parseInt
 				System.out.println("------------종료-----------");
-				top_menu_bool = false;
+				repeat = false;
 			} // if 6 종료 end
 
 			// 1번 메뉴 발생 시킬 수 있도록 구성하기
@@ -97,18 +97,14 @@ public class Menu extends CommonMethod
 					System.out.println("입력 값이 잘 못 되었습니다.");
 				}
 			}
-
 		} // while end
-
 	}// main end
 
 	// 1번 메뉴 메소드 생성
 	public void first_menu()
-	{
+	{		
 
-		boolean top_menu_bool = true;
-
-		while (top_menu_bool)
+		for(;;)
 		{
 			System.out.println("------------------------------");
 			System.out.println("----------사원정보조회 메뉴---------");
@@ -120,12 +116,12 @@ public class Menu extends CommonMethod
 			System.out.println("exit. 종료");
 			System.out.print("값을 입력하세요. => ");
 			// 입력값 받을 수 있는 기능 수행
-			String menu = super.input_msg();
+			String menu = input_msg();
 
 			if (menu.equals("exit")) // 사원조회 나가기
 			{
 				System.out.println("------------1번 메뉴 종료-----------");
-				top_menu_bool = false;
+				break;
 			} // if exit end , exit시 종료
 			else if (menu.equals("a"))
 			{ // 전체사원조회
@@ -135,25 +131,19 @@ public class Menu extends CommonMethod
 			} // else if 'a' END
 			else if (menu.equals("b"))
 			{ // 특정인물 조회
-				boolean code = true;
-				while (code)
+				boolean repeat = true;
+				while (repeat)
 				{
 					System.out.println("사원번호를 입력하세요.");
-					String empno = super.input_msg();
+					String empno = input_msg();
 
-					// SeachHR에 검색된 결과값 전달 후 화면 보이기
-					// String empno => int 바꿀 필요가 있음
 					EmpBean eb = null;
 					int i_empno = Integer.parseInt(empno);
 					eb = (EmpBean) new EmpData().getEmp(i_empno, ar_eb);
-					String s_code = SearchHR.getInstance().selView(eb);
-
-					// code Y 다시 검색, code N 종료
-					if (s_code.equals("n"))
-					{
-						code = false;
-					}
-
+					SearchHR.getInstance().selView(eb);
+					
+					repeat = repeatCheck(repeat);
+					
 				} // while 특정사원찾기 END
 
 			} // else if 'b' END
@@ -165,18 +155,18 @@ public class Menu extends CommonMethod
 				
 				System.out.println("실행되었습니다.");
 			}
-		} // while 전체 메뉴 END
+		} // while 사원조회  메뉴 END
 	} // first_menu end
 
 	// 2번 메뉴 메소드 생성
 	public void second_menu()
 	{ // 사원추가
 		System.out.println("추가하고자 하는 사원의 번호를 입력하세요.");
-		String empno = super.input_msg();
+		String empno = input_msg();
 		System.out.println("추가하고자 하는 사원의 이름을 입력하세요.");
-		String ename = super.input_msg();
+		String ename = input_msg();
 		System.out.println("추가하고자 하는 사원의 부서번호을 입력하세요.");
-		String deptno = super.input_msg();
+		String deptno = input_msg();
 
 		// 2가지 값을 전달해 추가
 		EmpData ed = new EmpData();
@@ -197,9 +187,9 @@ public class Menu extends CommonMethod
 			if (Integer.parseInt(idx) <= ar_eb.size())
 			{
 				System.out.println("수정하고자 하는 사원 번호를 입력하세요.");
-				String m_empno = super.input_msg();
+				String m_empno = input_msg();
 				System.out.println("수정하고자 하는 사원 이름을 입력하세요.");
-				String m_ename = super.input_msg();
+				String m_ename = input_msg();
 				EmpData ed = new EmpData();
 				ar_eb = ed.mod_emp(ar_eb, m_empno, m_ename, idx);
 				break;
@@ -221,7 +211,7 @@ public class Menu extends CommonMethod
 		// 전체 사원 리스트 출력
 		new SearchHR().all_View(ar_eb);
 
-		String idx = super.input_msg();
+		String idx = input_msg();
 
 		// 사원번
 		EmpData ed = new EmpData();
@@ -233,8 +223,8 @@ public class Menu extends CommonMethod
 	public void fifth_menu(int auth)
 	{
 		// 부서정보 조회 메뉴
-		boolean dept_menu_bool = true;
-		while (dept_menu_bool)
+		boolean repeat = true;
+		while (repeat)
 		{
 			System.out.println("------------------------------");
 			System.out.println("----------부서정보조회 메뉴---------");
@@ -253,7 +243,7 @@ public class Menu extends CommonMethod
 			DeptMenu dm = DeptMenu.getInstance();
 			if (menu.equals("exit"))
 			{
-				dept_menu_bool = false;
+				repeat = false;
 			}
 			else if (menu.equals("1"))
 			{

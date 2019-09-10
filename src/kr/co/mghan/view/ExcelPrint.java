@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -16,14 +18,17 @@ import kr.co.mghan.domain.EmpBean;
 public class ExcelPrint
 {
 	public void setXls(List<EmpBean> list) {
-		HSSFWorkbook wb = new HSSFWorkbook();
-		HSSFSheet hs = wb.createSheet();
+		HSSFWorkbook wb = new HSSFWorkbook(); // 워크북 생성
+		HSSFSheet hs = wb.createSheet(); // 워크 시트 생성
 		
-		HSSFRow hr = hs.createRow(0);
-		HSSFCell hc;
+		HSSFRow hr = hs.createRow(0); // 행 생성
+		HSSFCell hc; // 셀 생성
+		
+		Date time = new Date(); 
+        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+        String now = format1.format(time);
 		
 		// 헤더 정보 구성
-
         hc = hr.createCell(0);
         hc.setCellValue("사원번호");        
         hc = hr.createCell(1);
@@ -39,9 +44,11 @@ public class ExcelPrint
         hc = hr.createCell(6);
         hc.setCellValue("보너스");
         hc = hr.createCell(7);
-        hc.setCellValue("부서번호");
+        hc.setCellValue("부서번호");     
         
-        EmpBean eb;
+        
+        EmpBean eb; // 정보 가져올 객체 
+        
 		
         for(int rowIdx=0; rowIdx < list.size(); rowIdx++) {
             eb = list.get(rowIdx);
@@ -49,17 +56,17 @@ public class ExcelPrint
             // 행 생성
             hr = hs.createRow(rowIdx+1);
             
-            hc = hr.createCell(0);
-            hc.setCellValue(eb.getEmpno());
+            hc = hr.createCell(0); // 사원번호 컬럼에
+            hc.setCellValue(eb.getEmpno()); // 사원번호 값을 가져와 전달
             
-            hc = hr.createCell(1);
-            hc.setCellValue(eb.getEname());
+            hc = hr.createCell(1); // 사원명 컬럼에
+            hc.setCellValue(eb.getEname()); // 사원명 값을 가져와 전달
             
-            hc = hr.createCell(2);
-            hc.setCellValue(eb.getMgr());
+            hc = hr.createCell(2); // 상급자 사원번호 컬럼에
+            hc.setCellValue(eb.getMgr()); // 상급자 사원번호 값을 가져와 전달
             
-            hc = hr.createCell(3);
-            hc.setCellValue(eb.getJob());
+            hc = hr.createCell(3); // 직책 컬럼에
+            hc.setCellValue(eb.getJob()); // 직책 값을 가져와 전달
             
             hc = hr.createCell(4);
             hc.setCellValue(eb.getHiredate());
@@ -71,12 +78,19 @@ public class ExcelPrint
             hc.setCellValue(eb.getComm());
             
             hc = hr.createCell(7);
-            hc.setCellValue(eb.getDeptno());
+            hc.setCellValue(eb.getDeptno());          
             
         }
+        
+        // 마지막 행 다다음 행 8번째 셀에 생성된 시각을 기입
+        hr = hs.createRow(list.size()+1); 
+        hc = hr.createCell(8); 
+        hc.setCellValue(now); 
+        
+        
 		
-		
-		File file = new File("c:/Test/TestExcel2.xls");
+		// 특정위치에 파일생성
+		File file = new File("C:\\lab\\workspace for java\\HRM_VER05\\excel\\EmpSheet.xls");
 		
 		if(file.exists()) {
 			try

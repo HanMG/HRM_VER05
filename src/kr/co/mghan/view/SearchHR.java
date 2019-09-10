@@ -34,12 +34,11 @@ public class SearchHR extends Search
 	}// all_View end
 
 	// 특정사원 번호 조회를 통한 사원 정보 출력
-	public String emp_View(EmpBean eb)
+	public void emp_View(EmpBean eb)
 	{
 		if (eb == null)
 		{
-			System.out.println("조회된 값이 없습니다.");
-			
+			System.out.println("조회된 값이 없습니다.");			
 		}
 		else
 		{
@@ -48,28 +47,23 @@ public class SearchHR extends Search
 			System.out.println("이름 : " + eb.getEname());
 			System.out.println("부서 : " + eb.getDeptno());
 			System.out.println();
-		}
-		
-		System.out.println("계속 검색 하시겠습니까? (y,n)");
-		String code =  input_msg(); // Y 다시 검색하는 메뉴 실행, N 종료
-		
-		return code;
+		}				
 	}
 
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void AllView(Object ar_ob)
 	{
 		// TODO Auto-generated method stub
-		all_View((List<EmpBean>) ar_ob);
-		
+		all_View((List<EmpBean>) ar_ob);		
 	}
 
 	@Override
-	public String selView(Object ob)
+	public void selView(Object ob)
 	{
 		// TODO Auto-generated method stub
-		return emp_View((EmpBean)ob);
+		emp_View((EmpBean)ob);
 		
 	}
 } // SearchHR end
