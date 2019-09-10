@@ -24,7 +24,7 @@ public class MainRun extends CommonMethod
 			System.out.print("아이디: ");
 			String id = input_msg();
 
-			System.out.print(" 비밀번호: ");
+			System.out.print("비밀번호: ");
 			String pw = input_msg();
 			// Menu 객체를 통해 아까 만든 메뉴 실행 시키기
 

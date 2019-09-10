@@ -116,6 +116,7 @@ public class Menu extends CommonMethod
 			System.out.println("@ 수행하고자 하는 메뉴 번호를 누르세요.");
 			System.out.println("a. 사원정보조회");
 			System.out.println("b. 특정사원조회");
+			System.out.println("c. 사원정보엑셀로 추출");
 			System.out.println("exit. 종료");
 			System.out.print("값을 입력하세요. => ");
 			// 입력값 받을 수 있는 기능 수행
@@ -156,6 +157,14 @@ public class Menu extends CommonMethod
 				} // while 특정사원찾기 END
 
 			} // else if 'b' END
+			else if(menu.equals("c")) {
+				
+				ExcelPrint xp = new ExcelPrint();
+				
+				xp.setXls(ar_eb);		
+				
+				System.out.println("실행되었습니다.");
+			}
 		} // while 전체 메뉴 END
 	} // first_menu end
 
